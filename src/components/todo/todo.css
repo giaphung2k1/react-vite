@@ -58,6 +58,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .logo {
     animation: logo-spin infinite 20s linear;
+    width: 100%;
   }
 }
 
