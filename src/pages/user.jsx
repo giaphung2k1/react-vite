@@ -1,6 +1,6 @@
 const UserPage = () => {
     return (
-        <div>Register Page</div>
+        <div>User Page</div>
     );
 }
 
