@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import axios from "axios.customize";
+import axios from "./axios.customize";
 
 const createUserAPI = (fullName, email, password, phone) => {
     const URL_BACKEND = "/api/v1/user";

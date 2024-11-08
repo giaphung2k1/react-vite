@@ -15,8 +15,14 @@ const UserForm = () => {
         
         if(res.data){
             notification.success({
-                massage: "create user",
+                massage: "Create user",
                 description: "Tạo user thành công"
+            })
+        }
+        else{
+            notification.error({
+                massage: "Error create user",
+                description: JSON.stringify(res.message)
             })
         }
        

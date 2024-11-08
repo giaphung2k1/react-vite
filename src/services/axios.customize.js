@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Set config defaults when creating the instance
 const instance = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: import.meta.env.VITE_BACKEND_URL
 });
 
 
@@ -21,6 +21,7 @@ instance.interceptors.response.use(function (response) {
     return response
     
   }, function (error) {
+    if(error.response && error.response.data) return error.response.data;
     return Promise.reject(error);
   });
 
