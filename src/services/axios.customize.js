@@ -18,7 +18,7 @@ instance.interceptors.response.use(function (response) {
     if(response.data && response.data.data){
         return response.data;
     }
-    return response
+    return response;
     
   }, function (error) {
     if(error.response && error.response.data) return error.response.data;
