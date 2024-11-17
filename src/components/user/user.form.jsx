@@ -1,4 +1,4 @@
-import { Input, Typography, Button, notification } from 'antd';
+import { Input, Typography, Button, notification, Modal } from 'antd';
 import './user.form.css'
 import { useState } from 'react';
 import { createUserAPI } from '../../services/api.service';
@@ -9,23 +9,34 @@ const UserForm = () => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
 
-    const handleClickBtn = async () => {
-       
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const handlesSubmitBtn = async () => {
+
         const res = await createUserAPI(fullName, email, password, phone);
-        
-        if(res.data){
+
+        if (res.data) {
             notification.success({
                 massage: "Create user",
                 description: "Tạo user thành công"
             })
+            setIsModalOpen(false);
         }
-        else{
+        else {
             notification.error({
                 massage: "Error create user",
                 description: JSON.stringify(res.message)
             })
         }
-       
+
         
 
 
@@ -33,36 +44,53 @@ const UserForm = () => {
 
     return (
         <div className='user-form'>
-            <div>
-                <Typography.Title level={5}>Fullname</Typography.Title>
-                <Input placeholder="Fullname"
-                    onChange={(event) => { setFullName(event.target.value) }}
 
-                />
-            </div>
-            <div>
-                <Typography.Title level={5}>Email</Typography.Title>
-                <Input placeholder="Email"
-                    onChange={(event) => { setEmail(event.target.value) }}
-                />
-            </div>
-            <div>
-                <Typography.Title level={5}>Password</Typography.Title>
-                <Input.Password placeholder="input password"
-                    onChange={(event) => { setPassword(event.target.value) }}
-                />
-            </div>
-            <div>
-                <Typography.Title level={5}>Phone</Typography.Title>
-                <Input placeholder="Phone"
-                    onChange={(event) => { setPhone(event.target.value) }}
-                />
-            </div>
 
-            <div>
-                <Button type="primary"
-                    onClick={handleClickBtn}
-                >Submit</Button>
+            <Modal title="Add user"
+                open={isModalOpen}
+                onOk={handlesSubmitBtn}
+                onCancel={handleCancel}
+                maskClosable={false}
+                okText="CREATE"
+            >
+                <div style={{display:'flex',gap:'15px',flexDirection:'column'}}>
+                    <div>
+                        <Typography.Title level={5}>Fullname</Typography.Title>
+                        <Input placeholder="Fullname"
+                            onChange={(event) => { setFullName(event.target.value) }}
+
+                        />
+                    </div>
+                    <div>
+                        <Typography.Title level={5}>Email</Typography.Title>
+                        <Input placeholder="Email"
+                            onChange={(event) => { setEmail(event.target.value) }}
+                        />
+                    </div>
+                    <div>
+                        <Typography.Title level={5}>Password</Typography.Title>
+                        <Input.Password placeholder="input password"
+                            onChange={(event) => { setPassword(event.target.value) }}
+                        />
+                    </div>
+                    <div>
+                        <Typography.Title level={5}>Phone</Typography.Title>
+                        <Input placeholder="Phone"
+                            onChange={(event) => { setPhone(event.target.value) }}
+                        />
+                    </div>
+                </div>
+
+            </Modal>
+
+
+
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <h3>Table Users</h3>
+                <Button
+                    onClick={showModal}
+                    type='primary'
+                >Create User</Button>
             </div>
 
 

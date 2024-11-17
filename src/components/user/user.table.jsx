@@ -20,15 +20,16 @@ const UserTable = () => {
 
 
 
-    const [dataUsers,setDataUsers] = useState([
-        {_id: 1, fullName: "Hung", email : "giaphung2k1@gmail.com"},
+    const [dataUsers,setDataUsers] = useState([]);
+
     
-    ]);
 
     useEffect(() => {
-        console.log(">>>>>> run useEffect 111");
         loadUser()
     },[])
+
+
+
 
     const loadUser = async() => {
         const res = await fetchAllUserAPI();
@@ -37,10 +38,6 @@ const UserTable = () => {
         
 
     }
-
-    
-
-    console.log(">>>>>> run 0000");
 
     return (
         <div>
