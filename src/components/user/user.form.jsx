@@ -3,7 +3,9 @@ import './user.form.css'
 import { useState } from 'react';
 import { createUserAPI } from '../../services/api.service';
 
-const UserForm = () => {
+const UserForm = (props) => {
+
+    const {loadUser} = props;
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,9 +17,7 @@ const UserForm = () => {
         setIsModalOpen(true);
     };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+
 
     const handlesSubmitBtn = async () => {
 
@@ -28,7 +28,8 @@ const UserForm = () => {
                 massage: "Create user",
                 description: "Tạo user thành công"
             })
-            setIsModalOpen(false);
+            resetAndCloseModal();
+            await loadUser();
         }
         else {
             notification.error({
@@ -42,6 +43,15 @@ const UserForm = () => {
 
     }
 
+    const resetAndCloseModal = () => {
+        setIsModalOpen(false);
+        setFullName('');
+        setEmail('');
+        setPassword('');
+        setPhone('');
+        
+    }
+
     return (
         <div className='user-form'>
 
@@ -49,7 +59,7 @@ const UserForm = () => {
             <Modal title="Add user"
                 open={isModalOpen}
                 onOk={handlesSubmitBtn}
-                onCancel={handleCancel}
+                onCancel={() => resetAndCloseModal()}
                 maskClosable={false}
                 okText="CREATE"
             >
