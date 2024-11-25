@@ -1,11 +1,12 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
+import { Table, Drawer } from 'antd';
 import UpdateUserModal from './update.user.modal';
 import { useState } from 'react';
+import ViewUserDetail from './view.user.detail';
 
 
 const UserTable = (props) => {
-    const {dataUsers,loadUser} = props;
+    const { dataUsers, loadUser } = props;
     const columns = [
         {
             title: 'Id',
@@ -13,7 +14,10 @@ const UserTable = (props) => {
             render: (_, record) => {
                 return (
                     <>
-                    <a href="#">{record._id}</a>
+                        <a href="#"
+                            onClick={() => showModalUserDetail(record)}
+
+                        >{record._id}</a>
                     </>
                 )
             }
@@ -30,18 +34,34 @@ const UserTable = (props) => {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
-                <div style={{display:"flex", gap:"20px"}}>
-                <EditOutlined onClick={() => clickUpdateBtn(record)} style={{cursor:'pointer',color:"orange"}}/>
-                <DeleteOutlined style={{cursor:"pointer", color:"red"}}/>
+                <div style={{ display: "flex", gap: "20px" }}>
+                    <EditOutlined onClick={() => clickUpdateBtn(record)} style={{ cursor: 'pointer', color: "orange" }} />
+                    <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
                 </div>
             ),
-          },
-     
+        },
+
     ];
 
     const [IsModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-    const [dataUpdate,setDataUpdate] = useState(null);
+    const [dataUpdate, setDataUpdate] = useState(null);
+    const [dataUserDetail, setDataUserDetail] = useState(null);
 
+
+    const [open, setOpen] = useState(false);
+    const showDrawer = () => {
+        setOpen(true);
+    };
+    const onClose = () => {
+        setOpen(false);
+    };
+
+
+    const showModalUserDetail = (record) => {
+        showDrawer();
+        setDataUserDetail(record);
+
+    }
 
     const clickUpdateBtn = (record) => {
         setIsModalUpdateOpen(true);
@@ -49,23 +69,34 @@ const UserTable = (props) => {
 
     };
 
+    
+    
+    
     return (
         <div>
-            <Table 
-            columns={columns} 
-            dataSource={dataUsers}
-            rowKey={"_id"}
+            <Table
+                columns={columns}
+                dataSource={dataUsers}
+                rowKey={"_id"}
             />
 
+
             <UpdateUserModal
-            IsModalUpdateOpen={IsModalUpdateOpen}
-            setIsModalUpdateOpen={setIsModalUpdateOpen}
-            dataUpdate={dataUpdate}
-            setDataUpdate={setDataUpdate}
-            loadUser={loadUser}
+                IsModalUpdateOpen={IsModalUpdateOpen}
+                setIsModalUpdateOpen={setIsModalUpdateOpen}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+                loadUser={loadUser}
+            />
+
+            <ViewUserDetail
+            setOpen={setOpen} 
+            open={open}
+            dataUserDetail={dataUserDetail}
+            setDataUserDetail={setDataUserDetail}
             />
         </div>
-        
+
     )
 }
 
