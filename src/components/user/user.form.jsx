@@ -45,10 +45,10 @@ const UserForm = (props) => {
 
     const resetAndCloseModal = () => {
         setIsModalOpen(false);
-        setFullName('');
-        setEmail('');
-        setPassword('');
-        setPhone('');
+        setFullName(null);
+        setEmail(null);
+        setPassword(null);
+        setPhone(null);
         
     }
 
@@ -67,6 +67,7 @@ const UserForm = (props) => {
                     <div>
                         <Typography.Title level={5}>Fullname</Typography.Title>
                         <Input placeholder="Fullname"
+                            value={fullName}
                             onChange={(event) => { setFullName(event.target.value) }}
 
                         />
@@ -74,18 +75,21 @@ const UserForm = (props) => {
                     <div>
                         <Typography.Title level={5}>Email</Typography.Title>
                         <Input placeholder="Email"
+                            value={email}
                             onChange={(event) => { setEmail(event.target.value) }}
                         />
                     </div>
                     <div>
                         <Typography.Title level={5}>Password</Typography.Title>
                         <Input.Password placeholder="input password"
+                            value={password}
                             onChange={(event) => { setPassword(event.target.value) }}
                         />
                     </div>
                     <div>
                         <Typography.Title level={5}>Phone</Typography.Title>
                         <Input placeholder="Phone"
+                            value={phone}
                             onChange={(event) => { setPhone(event.target.value) }}
                         />
                     </div>
