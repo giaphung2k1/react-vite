@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Input, Typography, Button, notification, Modal } from 'antd';
+import { updateUserAPI } from "../../services/api.service";
 
 const UpdateUserModal = (props) => {
+    const {loadUser} = props;
     const [id, setId] = useState("");
     const [fullName, setFullName] = useState("");
 
@@ -12,7 +14,6 @@ const UpdateUserModal = (props) => {
 
 
     useEffect(() => {
-        console.log(">>>>check dataUpdate props", dataUpdate);
         if (dataUpdate) {
             setId(dataUpdate._id)
             setFullName(dataUpdate.fullName);
@@ -22,12 +23,12 @@ const UpdateUserModal = (props) => {
     }, [dataUpdate])
     const handlesSubmitBtn = async () => {
 
-        const res = await createUserAPI(fullName, email, password, phone);
+        const res = await updateUserAPI(id, fullName, phone);
 
         if (res.data) {
             notification.success({
-                massage: "Create user",
-                description: "Tạo user thành công"
+                massage: "Update user",
+                description: "Cập nhật user thành công"
             })
             resetAndCloseModal();
             await loadUser();
@@ -78,7 +79,7 @@ const UpdateUserModal = (props) => {
                         />
                     </div>
 
-                   
+
                     <div>
                         <Typography.Title level={5}>Phone</Typography.Title>
                         <Input placeholder="Phone"

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 
 const UserTable = (props) => {
-    const {dataUsers} = props;
+    const {dataUsers,loadUser} = props;
     const columns = [
         {
             title: 'Id',
@@ -56,11 +56,13 @@ const UserTable = (props) => {
             dataSource={dataUsers}
             rowKey={"_id"}
             />
+
             <UpdateUserModal
             IsModalUpdateOpen={IsModalUpdateOpen}
             setIsModalUpdateOpen={setIsModalUpdateOpen}
             dataUpdate={dataUpdate}
             setDataUpdate={setDataUpdate}
+            loadUser={loadUser}
             />
         </div>
         
