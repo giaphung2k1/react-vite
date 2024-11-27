@@ -1,9 +1,9 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Table, Drawer } from 'antd';
+import { Table, Popconfirm, notification } from 'antd';
 import UpdateUserModal from './update.user.modal';
 import { useState } from 'react';
 import ViewUserDetail from './view.user.detail';
-
+import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
     const { dataUsers, loadUser } = props;
@@ -30,13 +30,23 @@ const UserTable = (props) => {
             title: 'Email',
             dataIndex: 'email',
         },
+
         {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "20px" }}>
                     <EditOutlined onClick={() => clickUpdateBtn(record)} style={{ cursor: 'pointer', color: "orange" }} />
-                    <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this task?"
+                        onConfirm={() => handleDeleteUser(record._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
+                    </Popconfirm>
+
                 </div>
             ),
         },
@@ -52,9 +62,6 @@ const UserTable = (props) => {
     const showDrawer = () => {
         setOpen(true);
     };
-    const onClose = () => {
-        setOpen(false);
-    };
 
 
     const showModalUserDetail = (record) => {
@@ -69,9 +76,32 @@ const UserTable = (props) => {
 
     };
 
-    
-    
-    
+
+
+    // Delete
+
+    const handleDeleteUser = async (id)  => {
+        
+        const res = await deleteUserAPI(id);
+
+        if(res.data){
+            notification.success({
+                massage: "Delete user",
+                description: "Xoa user thành công"
+            })
+           
+            await loadUser();
+        }else{
+            notification.error({
+                massage: "Error delete user",
+                description: JSON.stringify(res.message)
+            })
+        }
+    }
+
+
+
+
     return (
         <div>
             <Table
@@ -90,11 +120,13 @@ const UserTable = (props) => {
             />
 
             <ViewUserDetail
-            setOpen={setOpen} 
-            open={open}
-            dataUserDetail={dataUserDetail}
-            setDataUserDetail={setDataUserDetail}
+                setOpen={setOpen}
+                open={open}
+                dataUserDetail={dataUserDetail}
+                setDataUserDetail={setDataUserDetail}
             />
+
+
         </div>
 
     )
