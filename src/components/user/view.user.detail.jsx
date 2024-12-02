@@ -1,9 +1,10 @@
-import { Drawer } from "antd";
+import { Button, Drawer, notification } from "antd";
 import { useState } from "react";
+import { updateUserAvatarAPI, uploadImage } from "../../services/api.service";
 
 const ViewUserDetail = (props) => {
 
-    const { setOpen, open, dataUserDetail, setDataUserDetail } = props;
+    const { setOpen, open, dataUserDetail, setDataUserDetail,loadUser } = props;
     const [file, setSelectedFile] = useState(null);
 
 
@@ -12,12 +13,55 @@ const ViewUserDetail = (props) => {
             setSelectedFile(undefined)
             return
         }
-        setSelectedFile(URL.createObjectURL(event.target.files[0]));
+        setSelectedFile(event.target.files[0]);
 
     }
 
-    console.log(">>>>file", file);
+    const handleSaveImage = async () => {
+        const resUploadImage = await uploadImage(file,'avatar');
+        
+        if(resUploadImage.data){
+            
+            notification.success({
+                massage: "Upload image",
+                description: "Upload ảnh thành công"
+            })
 
+            const newAvatar = resUploadImage.data.fileUploaded;
+
+            const resUpdateUserAvatarAPI = await updateUserAvatarAPI(dataUserDetail._id,dataUserDetail.fullName,dataUserDetail.phone,newAvatar);
+
+            if(resUpdateUserAvatarAPI.data){
+                setOpen(false)
+                setSelectedFile(null);
+                setDataUserDetail(null);
+                await loadUser();
+                notification.success({
+                    massage: "Update user avatar",
+                    description: "Cập nhật avatar thành công"
+                })
+
+                console.log(">>>>resUpdateUserAvatarAPI",resUpdateUserAvatarAPI);
+                
+            }
+            else{
+                notification.error({
+                    massage: "Error update avatar",
+                    description: JSON.stringify(resUpdateUserAvatarAPI.message)
+                })
+            }
+            
+           
+           
+        }else{
+            notification.error({
+                massage: "Error upload image",
+                description: JSON.stringify(resUploadImage.message)
+            })
+            
+        }
+        
+    }
 
     return (
         <div>
@@ -65,6 +109,7 @@ const ViewUserDetail = (props) => {
                             hidden id="btnUpload" />
 
                         {file &&
+                        <div>
                             <div style={{
                                 marginTop: "10px",
                                 height: '100px', width: '150px',
@@ -73,8 +118,14 @@ const ViewUserDetail = (props) => {
                                 <img
                                     height={100}
                                     width={150}
-                                    src={file} alt="" />
+                                    src={URL.createObjectURL(file)} alt="" />
                             </div>
+                            <Button  
+                            onClick={handleSaveImage}
+                            style={{marginTop:'20px'}} 
+                            type="primary">Save</Button>
+                        </div>
+                            
                         }
                        
 

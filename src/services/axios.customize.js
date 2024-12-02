@@ -16,6 +16,7 @@ instance.interceptors.request.use(function (config) {
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
     if(response.data && response.data.data){
+  
         return response.data;
     }
     return response;

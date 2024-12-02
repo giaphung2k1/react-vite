@@ -15,7 +15,8 @@ const UserPage = () => {
 
 
     const loadUser = async () => {
-        const res = await fetchAllUserAPI();
+        const res = await fetchAllUserAPI(1,5);
+        
         setDataUsers(res.data)
     }
 

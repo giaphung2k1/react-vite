@@ -9,6 +9,12 @@ const UserTable = (props) => {
     const { dataUsers, loadUser } = props;
     const columns = [
         {
+            title:'#',
+            render: (_, record,index) => {
+                ++index; return index;
+            }
+        },
+        {
             title: 'Id',
             dataIndex: '_id',
             render: (_, record) => {
@@ -99,7 +105,8 @@ const UserTable = (props) => {
         }
     }
 
-
+    // console.log(">>>.dataUsers",dataUsers);
+    
 
 
     return (
@@ -124,6 +131,7 @@ const UserTable = (props) => {
                 open={open}
                 dataUserDetail={dataUserDetail}
                 setDataUserDetail={setDataUserDetail}
+                loadUser={loadUser}
             />
 
 
