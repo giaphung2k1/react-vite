@@ -6,11 +6,11 @@ import ViewUserDetail from './view.user.detail';
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-    const { dataUsers, loadUser } = props;
+    const { dataUsers, loadUser,current,setCurrent,pageSize,setPageSize,total, setTotal} = props;
     const columns = [
         {
-            title:'#',
-            render: (_, record,index) => {
+            title: '#',
+            render: (_, record, index) => {
                 ++index; return index;
             }
         },
@@ -86,18 +86,18 @@ const UserTable = (props) => {
 
     // Delete
 
-    const handleDeleteUser = async (id)  => {
-        
+    const handleDeleteUser = async (id) => {
+
         const res = await deleteUserAPI(id);
 
-        if(res.data){
+        if (res.data) {
             notification.success({
                 massage: "Delete user",
                 description: "Xoa user thành công"
             })
-           
+
             await loadUser();
-        }else{
+        } else {
             notification.error({
                 massage: "Error delete user",
                 description: JSON.stringify(res.message)
@@ -105,8 +105,11 @@ const UserTable = (props) => {
         }
     }
 
-    // console.log(">>>.dataUsers",dataUsers);
-    
+    const onChange = (pagination, filters, sorter, extra) => { 
+        // console.log({pagination, filters, sorter, extra});
+        setCurrent(pagination.current)
+    };
+
 
 
     return (
@@ -115,6 +118,15 @@ const UserTable = (props) => {
                 columns={columns}
                 dataSource={dataUsers}
                 rowKey={"_id"}
+                onChange={onChange}
+                pagination={
+                    {
+                        current: current,
+                        pageSize: pageSize,
+                        showSizeChanger: true,
+                        total: total,
+                        showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+                    }}
             />
 
 

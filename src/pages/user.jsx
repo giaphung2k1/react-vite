@@ -7,17 +7,24 @@ const UserPage = () => {
 
 
     const [dataUsers, setDataUsers] = useState([]);
+    const [current, setCurrent] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
 
     useEffect(() => {
         loadUser()
-    }, [])
+    }, [current])
 
 
     const loadUser = async () => {
-        const res = await fetchAllUserAPI(1,5);
+        const res = await fetchAllUserAPI(current,pageSize);
+        if(res.data){
+
+            setDataUsers(res.data.result)
+            setTotal(res.data.meta.total)
+        }
         
-        setDataUsers(res.data)
     }
 
     return (
@@ -29,6 +36,12 @@ const UserPage = () => {
                 <UserTable
                     dataUsers={dataUsers}
                     loadUser={loadUser}
+                    current={current}
+                    setCurrent={setCurrent}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    total={total}
+                    setTotal={setTotal}
                 />
             </div>
 
