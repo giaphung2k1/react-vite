@@ -6,12 +6,12 @@ import ViewUserDetail from './view.user.detail';
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-    const { dataUsers, loadUser,current,setCurrent,pageSize,setPageSize,total, setTotal} = props;
+    const { dataUsers, loadUser,current,setCurrent,pageSize,setPageSize,total} = props;
     const columns = [
         {
             title: '#',
             render: (_, record, index) => {
-                ++index; return index;
+                return (index+ 1) + (current - 1) * pageSize; 
             }
         },
         {
@@ -106,8 +106,16 @@ const UserTable = (props) => {
     }
 
     const onChange = (pagination, filters, sorter, extra) => { 
-        // console.log({pagination, filters, sorter, extra});
-        setCurrent(pagination.current)
+        if( pagination && pagination.current){
+            if(+current !== +pagination.current){
+                setCurrent(+pagination.current)
+            }
+        }
+        if(pagination && pagination.pageSize){
+            if(+pageSize !== +pagination.pageSize){
+                setPageSize(+pagination.pageSize)
+            }
+        }
     };
 
 
