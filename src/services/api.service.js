@@ -14,6 +14,8 @@ const createUserAPI = (fullName, email, password, phone) => {
     // console.log(">>>> check input",{fullName,email,password,phone});
 
 }
+
+
 const updateUserAPI = (_id, fullName, phone) => {
     const URL_BACKEND = "/api/v1/user";
 
@@ -65,11 +67,28 @@ const fetchAllUserAPI = (current,pageSize) => {
 
     return axios.get(URL_BACKEND);
 }
+
+
+
+const registerAPI = (fullName, email, password, phone) => {
+    const URL_BACKEND = "/api/v1/user/register";
+    
+    const data = {
+        fullName,
+        email,
+        password,
+        phone
+    }
+    return axios.post(URL_BACKEND, data);
+    // console.log(">>>> check input",{fullName,email,password,phone});
+
+}
 export {
     createUserAPI,
     updateUserAPI,
     updateUserAvatarAPI,
     uploadImage,
     fetchAllUserAPI,
-    deleteUserAPI
+    deleteUserAPI,
+    registerAPI
 }

@@ -1,24 +1,50 @@
-import { Button, Checkbox, Form, Input, Typography } from "antd";
-
+import { Button, Form, Input, notification } from "antd";
+import { registerAPI } from "../services/api.service";
+import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
-    const onFinish = (values) => {
-        console.log('Success:', values);
-      };
-      const onFinishFailed = (errorInfo) => {
+    const [form] = Form.useForm();
+    const navigate = useNavigate();
+    const onFinish = async (values) => {
+
+
+        const { fullName, email, password, phone } = values;
+        const res = await registerAPI(fullName, email, password, phone);
+
+        if (res && res.data) {
+            notification.success({
+                massage: "Register user",
+                description: "Register thành công"
+            })
+            navigate('/login')
+
+        }
+        else {
+            notification.error({
+                massage: "Register user error",
+                description: JSON.stringify(res.message)
+            })
+        }
+
+
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log(324432);
         console.log('Failed:', errorInfo);
-      };
-      const [form] = Form.useForm();
+    };
+
+
+
     return (
-        
+
         <Form
-            name="basic" 
+            name="basic"
             form={form}
             layout="vertical"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             style={
                 {
-                    margin:'50px'
+                    margin: '50px'
                 }
             }
         >
@@ -67,8 +93,9 @@ const RegisterPage = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your phone!',
-                    },
+                        pattern: new RegExp(/\d+/g),
+                        message: "Wrong format!"
+                    }
                 ]}
             >
                 <Input />
@@ -76,11 +103,12 @@ const RegisterPage = () => {
 
 
             <Form.Item label={null}>
-                <Button 
-                onClick={() => form.submit()}
-                type="primary" htmlType="submit">
+                <Button
+                    onClick={() => form.submit()}
+                    type="primary" htmlType="submit">
                     Submit
                 </Button>
+              
             </Form.Item>
         </Form>
 
