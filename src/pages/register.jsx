@@ -1,4 +1,4 @@
-import { Button, Form, Input, notification } from "antd";
+import { Button, Col, Form, Input, notification, Row } from "antd";
 import { registerAPI } from "../services/api.service";
 import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
@@ -49,69 +49,88 @@ const RegisterPage = () => {
             }
         >
             <h1>Register</h1>
-            <Form.Item
-                label="Full Name"
-                name="fullName"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your fullName!',
-                    },
-                ]}
-            >
-                <Input />
-            </Form.Item>
-            <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your email!',
-                    },
-                ]}
-            >
-                <Input />
-            </Form.Item>
 
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your password!',
-                    },
-                ]}
-            >
-                <Input.Password />
-            </Form.Item>
+            <Row justify={"center"}>
 
-            <Form.Item
-                label="Phone"
-                name="phone"
-                rules={[
-                    {
-                        required: true,
-                        pattern: new RegExp(/\d+/g),
-                        message: "Wrong format!"
-                    }
-                ]}
-            >
-                <Input />
-            </Form.Item>
+                <Col sm={24} md={6}>
+                    <Form.Item
+                        label="Full Name"
+                        name="fullName"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your fullName!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item></Col>
+            </Row>
+            <Row justify={"center"}>
+                <Col sm={24} md={6}>
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your email!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row justify={"center"}>
+                <Col sm={24} md={6}>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row justify={"center"}>
+                <Col sm={24} md={6}>
+                    <Form.Item
+                        label="Phone"
+                        name="phone"
+                        rules={[
+                            {
+                                required: true,
+                                pattern: new RegExp(/\d+/g),
+                                message: "Wrong format!"
+                            }
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+
+            <Row justify={"center"}>
+
+                <Form.Item label={null}>
+                    <Button
+                        onClick={() => form.submit()}
+                        type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+
+                </Form.Item>
+            </Row>
 
 
-            <Form.Item label={null}>
-                <Button
-                    onClick={() => form.submit()}
-                    type="primary" htmlType="submit">
-                    Submit
-                </Button>
-              
-            </Form.Item>
+
         </Form>
-
     );
 }
 
