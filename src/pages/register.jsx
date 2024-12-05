@@ -1,6 +1,6 @@
-import { Button, Col, Form, Input, notification, Row } from "antd";
+import { Button, Col, Flex, Form, Input, notification, Row } from "antd";
 import { registerAPI } from "../services/api.service";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const RegisterPage = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -38,7 +38,6 @@ const RegisterPage = () => {
 
         <Form
             name="basic"
-            form={form}
             layout="vertical"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -48,7 +47,9 @@ const RegisterPage = () => {
                 }
             }
         >
-            <h1>Register</h1>
+            <Row justify='center'>
+                <h1>Register</h1>
+            </Row>
 
             <Row justify={"center"}>
 
@@ -117,18 +118,21 @@ const RegisterPage = () => {
             </Row>
 
             <Row justify={"center"}>
-
+                <Col md={6}>
                 <Form.Item label={null}>
+                    
+                    <Flex justify="space-between">
                     <Button
                         onClick={() => form.submit()}
                         type="primary" htmlType="submit">
                         Submit
                     </Button>
-
+                    <Link to='/login'>Login</Link>
+                        </Flex>
+                    
                 </Form.Item>
+                </Col>
             </Row>
-
-
 
         </Form>
     );

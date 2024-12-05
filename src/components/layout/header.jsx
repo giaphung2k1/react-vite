@@ -1,7 +1,7 @@
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
-import { HomeOutlined, UserOutlined, BookOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, BookOutlined, SettingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 const Header = () => {
     const [current, setCurrent] = useState('home');
@@ -26,6 +26,23 @@ const Header = () => {
             icon: <BookOutlined />
             
         },
+        {
+            label: 'Setting',
+            key: 'SubMenu',
+            icon: <SettingOutlined />,
+            children: [
+              {
+                type: 'group',
+                label: <Link to='/login'>Login</Link>,
+                
+              },
+              {
+                type: 'group',
+                label: <Link to='/register'>Register</Link>,
+                
+              },
+            ],
+          },
     ];
 
    
