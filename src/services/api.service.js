@@ -95,6 +95,7 @@ const loginAPI = (email, password) => {
     return axios.post(URL_BACKEND, data);
 
 }
+
 export {
     createUserAPI,
     updateUserAPI,

@@ -1,21 +1,24 @@
 
-import { Button, Checkbox, Col, Flex, Form, Input, notification, Row } from 'antd';
+import { Button, Checkbox, Col, Flex, Form, Input, message, notification, Row } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginAPI } from '../services/api.service';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../components/context/auth.context';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const [isLoading,setIsLoading] = useState(false);
+
+    const {setUser} = useContext(AuthContext);
+
     const onFinish = async (values) => {
         setIsLoading(true)
         const {email, password} = values;
         const res = await loginAPI(email,password);
         if(res && res.data){
-            notification.success({
-                massage: "Login Successfully",
-                description: "Login thành công"
-            })
+            message.success("Login thành công")
+            localStorage.setItem("access_token", res.data.access_token);
+            setUser(res.data.user)
             navigate('/')
         }else{
             notification.error({
