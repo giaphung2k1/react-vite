@@ -19,6 +19,7 @@ export const AuthWrapper = (props) => {
         role: "",
         avatar: ""
     })
+    
     return (
         <AuthContext.Provider value={{user,setUser}}>
             {props.children}

@@ -20,6 +20,8 @@ const LoginPage = () => {
             localStorage.setItem("access_token", res.data.access_token);
             setUser(res.data.user)
             navigate('/')
+
+            
         }else{
             notification.error({
                 massage: "Login error",
