@@ -10,6 +10,7 @@ const LoginPage = () => {
     const [isLoading,setIsLoading] = useState(false);
 
     const {setUser} = useContext(AuthContext);
+    const [form] = Form.useForm();
 
     const onFinish = async (values) => {
         setIsLoading(true)
@@ -87,7 +88,11 @@ const LoginPage = () => {
                             },
                         ]}
                     >
-                        <Input.Password />
+                        <Input.Password 
+                            onKeyDown={(event) => {
+                               if(event.key === 'Enter') form.submit()
+                            }}
+                        />
                     </Form.Item>
                 </Col>
             </Row>

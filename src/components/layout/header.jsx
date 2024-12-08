@@ -12,7 +12,6 @@ const Header = () => {
   console.log(">>>>>data", user);
 
   const onClick = (e) => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
   const items = [
