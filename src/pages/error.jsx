@@ -8,8 +8,8 @@ const ErrorPage = () => {
   return (
     <div id="error-page">
       <Result
-        status="403"
-        title="403"
+        status="404"
+        title="404"
         subTitle={error.statusText || error.message}
         extra={<Button type="primary"><Link to="/">Back to Home Page</Link></Button>}
       />
