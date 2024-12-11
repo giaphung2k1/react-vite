@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
 
-  console.log(">>>>>data", user);
+  // console.log(">>>>>data", user);
 
   const onClick = (e) => {
     setCurrent(e.key);
