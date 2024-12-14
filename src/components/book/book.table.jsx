@@ -1,9 +1,10 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Popconfirm, Table } from "antd";
+import { notification, Popconfirm, Table } from "antd";
 import BookView from "./book.view";
 import { useState } from "react";
 import BookUpdateControl from "./book.update.control";
 import BookUpdateUncontrol from "./book.update.uncontrol";
+import { deleteBookAPI } from "../../services/api.service";
 
 const BookTable = (props) => {
     // Book Table 
@@ -70,7 +71,7 @@ const BookTable = (props) => {
                     <Popconfirm
                         title="Delete the task"
                         description="Are you sure to delete this task?"
-                        onConfirm={() => handleDeleteUser(record._id)}
+                        onConfirm={() => handleDeleteBook(record._id)}
                         okText="Yes"
                         cancelText="No"
                     >
@@ -102,8 +103,22 @@ const BookTable = (props) => {
         setBookUpdateDetail(record)
         showModal();
     }
-    const handleDeleteUser = () => {
+    const handleDeleteBook = async (id) => {
+        const deleteRes = await deleteBookAPI(id);
+        if (deleteRes.data) {
+            notification.success({
+                massage: "Delete book",
+                description: "Xoa book thành công"
+            })
 
+            await loadBook();
+        } else {
+            notification.error({
+                massage: "Error delete book",
+                description: JSON.stringify(deleteRes.message)
+            })
+        }
+        
     }
     // Book View
     const [openDrawer, setopenDrawer] = useState(false);

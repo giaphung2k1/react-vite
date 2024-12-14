@@ -15,7 +15,7 @@ import ErrorPage from './pages/error.jsx';
 import { AuthWrapper } from './components/context/auth.context.jsx';
 import PrivateRoute from './pages/private.route.jsx';
 
-
+import '../node_modules/nprogress/nprogress.css'
 const router = createBrowserRouter([
   {
     path: "/",

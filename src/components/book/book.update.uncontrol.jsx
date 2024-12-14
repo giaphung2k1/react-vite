@@ -108,7 +108,6 @@ const BookUpdateUncontrol = (props) => {
         </button>
     );
 
-    console.log(">>>>>bookDetail",bookUpdateDetail);
     
 
     const handleSubmitForm = async (values) => {
