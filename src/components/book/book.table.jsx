@@ -2,13 +2,18 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Popconfirm, Table } from "antd";
 import BookView from "./book.view";
 import { useState } from "react";
+import BookUpdateControl from "./book.update.control";
+import BookUpdateUncontrol from "./book.update.uncontrol";
 
 const BookTable = (props) => {
     // Book Table 
     const { data, current, setCurrent,
         pageSize, setPageSize,
-        total } = props;
+        total, loadBook } = props;
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [bookUpdateDetail, setBookUpdateDetail] = useState({});
     const columns = [
         {
             title: 'STT',
@@ -87,8 +92,15 @@ const BookTable = (props) => {
 
     }
 
-    const clickUpdateBtn = () => {
 
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const clickUpdateBtn = (record) => {
+
+        setBookUpdateDetail(record)
+        showModal();
     }
     const handleDeleteUser = () => {
 
@@ -122,7 +134,22 @@ const BookTable = (props) => {
                         showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
                     }}
 
+            />
+            {/* <BookUpdateControl
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            bookUpdateDetail={bookUpdateDetail}
+            setBookUpdateDetail={setBookUpdateDetail}
+            loadBook={loadBook}
+            /> */}
 
+            
+            <BookUpdateUncontrol
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                bookUpdateDetail={bookUpdateDetail}
+                setBookUpdateDetail={setBookUpdateDetail}
+                loadBook={loadBook}
             />
 
             <BookView

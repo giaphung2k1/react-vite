@@ -45,6 +45,7 @@ const BookPage = () => {
                 pageSize={pageSize}
                 setPageSize={setPageSize}
                 total={total}
+                loadBook={loadBook}
             />
 
 
