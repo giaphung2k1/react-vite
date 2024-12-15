@@ -18,7 +18,7 @@ import PrivateRoute from './pages/private.route.jsx';
 import '../node_modules/nprogress/nprogress.css'
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
@@ -27,11 +27,11 @@ const router = createBrowserRouter([
         element: <TodoApp />
       },
       {
-        path: "/users",
+        path: "users",
         element: <UserPage />,
       },
       {
-        path: "/book",
+        path: "book",
         element: (
         <PrivateRoute>
           <BookPage />
@@ -45,11 +45,11 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/login",
+    path: "login",
     element: <LoginPage />,
   },
   {
-    path: "/register",
+    path: "register",
     element: <RegisterPage />,
   },
 

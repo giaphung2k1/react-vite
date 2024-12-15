@@ -1,12 +1,15 @@
 import { Menu, message } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { HomeOutlined, UserOutlined, BookOutlined, LoginOutlined, AliwangwangOutlined } from '@ant-design/icons';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { logoutAPI } from '../../services/api.service';
 const Header = () => {
-  const [current, setCurrent] = useState('home');
+  let location = useLocation();
+
+
+  const [current, setCurrent] = useState('/home');
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
 
@@ -15,6 +18,16 @@ const Header = () => {
   const onClick = (e) => {
     setCurrent(e.key);
   };
+
+
+
+  useEffect(() => {
+    if (location) {
+      if (current !== location.pathname) {
+        setCurrent(location.pathname);
+      }
+    }
+  }, [location, current]);
 
   const handleLogout = async () => {
     const res = await logoutAPI();
@@ -36,29 +49,29 @@ const Header = () => {
   const items = [
     {
       label: <Link to={'/'}>Home</Link>,
-      key: 'home',
+      key: '/home',
       icon: <HomeOutlined />,
     },
     {
       label: <Link to={'users'}>Users</Link>,
-      key: 'users',
+      key: '/users',
       icon: <UserOutlined />,
     },
     {
       label: <Link to={'book'}>Book</Link>,
-      key: 'book',
+      key: '/book',
       icon: <BookOutlined />
 
     },
     ...(!user.id) ? [{
       label: <Link to='/login'>Login</Link>,
-      key: 'login',
+      key: '/login',
       icon: <LoginOutlined />
     }] : [],
 
     ...(user.id) ? [{
       label: `Welcome ${user.fullName}`,
-      key: 'setting',
+      key: '/setting',
       icon: <AliwangwangOutlined />,
       children: [
         {

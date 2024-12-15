@@ -6,7 +6,7 @@ import ViewUserDetail from './view.user.detail';
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-    const { dataUsers, loadUser,current,setCurrent,pageSize,setPageSize,total} = props;
+    const { dataUsers, loadUser,current,setCurrent,pageSize,setPageSize,total,loadingUserTable} = props;
     const columns = [
         {
             title: '#',
@@ -135,6 +135,7 @@ const UserTable = (props) => {
                         total: total,
                         showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
                     }}
+                    loading={loadingUserTable}
             />
 
 

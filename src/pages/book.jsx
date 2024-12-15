@@ -14,11 +14,14 @@ const BookPage = () => {
         []
     );
 
+    const [loadingTable,setLoadingTable] = useState(false);
+
     useEffect(() => {
         loadBook()
     }, [current, pageSize])
 
     const loadBook = async () => {
+        setLoadingTable(true);
         const res = await fetchAllBookAPI(current, pageSize);
         if (res.data && res.data.result) {
             const { current, pageSize, pages, total } = res.data.meta;
@@ -26,6 +29,7 @@ const BookPage = () => {
             setTotal(total)
             setBookList(res.data.result)
         }
+        setLoadingTable(false);
     }
 
 
@@ -46,6 +50,8 @@ const BookPage = () => {
                 setPageSize={setPageSize}
                 total={total}
                 loadBook={loadBook}
+                loadingTable={loadingTable}
+                setLoadingTable={setLoadingTable}
             />
 
 

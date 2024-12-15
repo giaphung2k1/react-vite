@@ -17,6 +17,8 @@ const BookFormUncontrol = (props) => {
     const [form] = Form.useForm();
     const { loadBook } = props;
 
+    const [loadingBookCreate, setLoadingBookCreate] = useState(false);
+
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -26,7 +28,7 @@ const BookFormUncontrol = (props) => {
     };
 
 
-    
+
 
     const handlePreview = async (file) => {
         if (!file.url && !file.preview) {
@@ -64,13 +66,11 @@ const BookFormUncontrol = (props) => {
 
 
     const onFinish = async (values) => {
-        console.log('Success:', values.thumbnail);
-        console.log(">>>>form",form);
-        
+
         const uploadImageRes = await uploadImage(values.thumbnail.file, 'book');
 
         if (uploadImageRes.data) {
-
+            setLoadingBookCreate(true)
             const imageName = uploadImageRes.data.fileUploaded;
             notification.success({
                 massage: "Upload image",
@@ -91,18 +91,22 @@ const BookFormUncontrol = (props) => {
                     massage: "Create book",
                     description: "Tạo book thành công"
                 });
+                setLoadingBookCreate(false)
                 loadBook();
                 handleCancel();
+               
 
             }
+
             else {
                 notification.error({
                     massage: "Error create book",
                     description: JSON.stringify(createBookRes.message)
                 })
+                setLoadingBookCreate(false)
             }
 
-
+            
 
         }
     };
@@ -122,8 +126,13 @@ const BookFormUncontrol = (props) => {
                     Open Modal
                 </Button>
                 <Modal
+
                     maskClosable={false}
-                    title="Add Book" open={isModalOpen} footer={null} onCancel={handleCancel}>
+                    okButtonProps={{
+                        loading: loadingBookCreate
+                    }}
+                    title="Add Book" open={isModalOpen} onOk={() => form.submit()} onCancel={handleCancel}>
+
                     <Form
                         form={form}
                         onFinish={onFinish}
@@ -235,11 +244,7 @@ const BookFormUncontrol = (props) => {
                             />
                         )}
 
-                        <Form.Item label={null}>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                        </Form.Item>
+
                     </Form>
                 </Modal>
             </div>

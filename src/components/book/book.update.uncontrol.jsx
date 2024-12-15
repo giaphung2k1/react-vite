@@ -12,6 +12,9 @@ const BookUpdateUncontrol = (props) => {
 
     const [fileList, setFileList] = useState([]);
 
+    const [loadingBookUpdate, setLoadingBookUpdate] = useState(false);
+
+
     useEffect(() => {
         if (bookUpdateDetail._id) {
             form.setFieldsValue({
@@ -108,7 +111,7 @@ const BookUpdateUncontrol = (props) => {
         </button>
     );
 
-    
+
 
     const handleSubmitForm = async (values) => {
 
@@ -121,9 +124,10 @@ const BookUpdateUncontrol = (props) => {
         const _id = bookUpdateDetail._id;
 
 
-     
+
         if (fileList.length > 0) {
             if (fileList[0].name) {
+                setLoadingBookUpdate(true);
                 const uploadImageRes = await uploadImage(fileList[0].originFileObj, 'book');
                 if (uploadImageRes.data) {
                     const imageName = uploadImageRes.data.fileUploaded;
@@ -148,11 +152,13 @@ const BookUpdateUncontrol = (props) => {
                             massage: "Update book",
                             description: "Cập nhật book thành công"
                         });
+                        setLoadingBookUpdate(false);
                         loadBook();
                         handleCancel();
 
                     }
                     else {
+                        setLoadingBookUpdate(false);
                         notification.error({
                             massage: "Error update book",
                             description: JSON.stringify(updateBookRes.message)
@@ -164,7 +170,7 @@ const BookUpdateUncontrol = (props) => {
                 }
             }
             else {
-
+                setLoadingBookUpdate(true);
                 const updateBookRes = await updateBookAPI(
                     _id,
                     title,
@@ -180,12 +186,13 @@ const BookUpdateUncontrol = (props) => {
                         description: "Cập nhật book thành công"
                     });
 
-
+                    setLoadingBookUpdate(false);
                     loadBook();
                     handleCancel();
 
                 }
                 else {
+                    setLoadingBookUpdate(false);
                     notification.error({
                         massage: "Error update book",
                         description: JSON.stringify(updateBookRes.message)
@@ -193,7 +200,8 @@ const BookUpdateUncontrol = (props) => {
                 }
             }
         } else {
-            const imageName= null;
+            const imageName = null;
+            setLoadingBookUpdate(true);
             const updateBookRes = await updateBookAPI(
                 _id,
                 title,
@@ -210,12 +218,13 @@ const BookUpdateUncontrol = (props) => {
                     description: "Cập nhật book thành công"
                 });
 
-
+                setLoadingBookUpdate(false);
                 loadBook();
                 handleCancel();
 
             }
             else {
+                setLoadingBookUpdate(false);
                 notification.error({
                     massage: "Error update book",
                     description: JSON.stringify(updateBookRes.message)
@@ -255,6 +264,9 @@ const BookUpdateUncontrol = (props) => {
                     title="Update Book" open={isModalOpen} onOk={() => form.submit()} onCancel={handleCancel}>
                     <Form
                         form={form}
+                        okButtonProps={{
+                            loading: loadingBookUpdate
+                        }}
                         onFinish={handleSubmitForm}
                         layout='vertical'
                     >

@@ -10,9 +10,11 @@ const BookTable = (props) => {
     // Book Table 
     const { data, current, setCurrent,
         pageSize, setPageSize,
-        total, loadBook } = props;
+        total, loadBook ,loadingTable,
+        setLoadingTable} = props;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
     const [bookUpdateDetail, setBookUpdateDetail] = useState({});
     const columns = [
@@ -148,6 +150,7 @@ const BookTable = (props) => {
                         total: total,
                         showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
                     }}
+                loading={loadingTable}
 
             />
             {/* <BookUpdateControl
